@@ -26,7 +26,7 @@ function App() {
     <div className="App">
 
       <Menu />
-      <Informacoes />
+      {/*<Informacoes  ticker={input}/> */}
 
     </div>
   );

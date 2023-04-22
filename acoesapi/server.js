@@ -8,6 +8,7 @@ app.use(express.json())
 app.use(cors())
 
 app.get('/acao', Acao.listar)
+app.get('/acao/:simbolo', Acao.selecionar)
 
 
 banco.authenticate()

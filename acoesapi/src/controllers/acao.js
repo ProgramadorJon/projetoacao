@@ -6,12 +6,21 @@ async function listar(req, res) {
     res.json(await Acao.findAll())
 }
 
+async function selecionar(req, res) {
+  await Acao.findOne(
+    {
+      where: { simbolo: req.params.simbolo.toUpperCase()}
+  })
+  .then(result => res.json(result))
+  .catch(err => res.status(400).json(err))
+}
+
 async function importar(req, res) {
     try {
-        const resposta = await axios.get('https://brapi.dev/api/available');
-        console.log(resposta.data.stocks);
+        const resposta = await axios.get('https://brapi.dev/api/available')
+        console.log(resposta.data.stocks)
     
-        let acoesCriadas = [];
+        let acoesCriadas = []
         await resposta.data.stocks.map(async (simbolo) => {
           const acao = await Acao.create({
             simbolo,
@@ -26,4 +35,4 @@ async function importar(req, res) {
       }
     }
 
-export default { listar, importar }
+export default { listar, importar, selecionar }

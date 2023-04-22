@@ -1,8 +1,12 @@
 import { Col, Row, Figure } from "react-bootstrap"
 import '../App.css'
+import axios from "axios"
 
 
-export default function Informacoes() {
+export default function Informacoes({ticker}) {
+
+    const resposta = axios.get('http://localhost:4000/acao/' + {ticker})
+    console.log(resposta.data)
 
     return (
         <>

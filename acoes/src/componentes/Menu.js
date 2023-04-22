@@ -1,15 +1,27 @@
 import { Button, Navbar, Nav, Container, NavDropdown, Form } from "react-bootstrap"
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa'
 import { useState } from "react"
+import Informacoes from "./Informacoes.js"
 
 
-export default function Menu({simbolo}){
+
+export default function Menu(){
 
     const [input, setInput] = useState('')
 
 
-    function alerta(){
-        
+    function busca(){
+
+        if(input === ''){
+            alert('Campo de busca vazio')
+        }
+
+        try {
+            <Informacoes  ticker={input}/>            
+        } catch (error) {
+            return error
+        }
+
     }
 
     return (
@@ -45,7 +57,8 @@ export default function Menu({simbolo}){
                     value={input}
                     onChange={(e)=> setInput(e.target.value)}
                 />
-               <Button variant="outline-success" onClick={alerta}><FaSearch /></Button>
+               <Button variant="outline-success"onClick={busca}>
+                <FaSearch /></Button>
                 </Form>
             </Navbar.Collapse>
             </Container>
