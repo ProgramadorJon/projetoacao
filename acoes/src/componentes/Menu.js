@@ -2,9 +2,11 @@ import { Button, Navbar, Nav, Container, NavDropdown, Form } from "react-bootstr
 import { FaSearch } from 'react-icons/fa';
 import { useState } from "react"
 
-export default function Menu(){
+
+export default function Menu({simbolo}){
 
     const [input, setInput] = useState('')
+
 
     function alerta(){
         

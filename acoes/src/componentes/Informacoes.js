@@ -19,7 +19,7 @@ export default function Informacoes() {
                     </Col>
 
                     <Col md={2}>
-                        <h1 className="text-white">ticker</h1>
+                        <h1 className="text-white">tickers</h1>
                         <h5 className="text-white">nome ticker</h5>
                     </Col>
 
