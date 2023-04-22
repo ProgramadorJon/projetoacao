@@ -1,11 +1,13 @@
 import express  from "express"
 import banco from "./src/banco.js"
 import Acao from "./src/controllers/acao.js"
+import cors from "cors"
 
 const app = express()
+app.use(express.json())
+app.use(cors())
 
 app.get('/acao', Acao.listar)
-app.get('/importar', Acao.importar)
 
 
 banco.authenticate()

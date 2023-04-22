@@ -1,7 +1,15 @@
 import { Button, Navbar, Nav, Container, NavDropdown, Form } from "react-bootstrap"
 import { FaSearch } from 'react-icons/fa';
+import { useState } from "react"
 
 export default function Menu(){
+
+    const [input, setInput] = useState('')
+
+    function alerta(){
+        
+    }
+
     return (
         <>
         <Navbar expand="lg" bg="black" variant="dark">
@@ -32,8 +40,10 @@ export default function Menu(){
                     placeholder="Pesquisar Ação"
                     className="me-2"
                     aria-label="Search"
+                    value={input}
+                    onChange={(e)=> setInput(e.target.value)}
                 />
-               <Button variant="outline-success"><FaSearch /></Button>
+               <Button variant="outline-success" onClick={alerta}><FaSearch /></Button>
                 </Form>
             </Navbar.Collapse>
             </Container>

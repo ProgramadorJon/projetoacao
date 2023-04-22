@@ -3,6 +3,7 @@ import '../App.css'
 
 
 export default function Informacoes() {
+
     return (
         <>
             <div className="container">
