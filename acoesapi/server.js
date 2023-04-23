@@ -12,10 +12,11 @@ app.get('/acao', Acao.listar)
 app.get('/acao/:simbolo', Acao.selecionar)
 
 
-app.get('/cotacao', Cotacao.listar)
+//app.get('/cotacao', Cotacao.listar)
+app.get('/cotacao', Cotacao.importar)
 
 
 banco.authenticate()
 app.listen(4000, () => {
-    console.log("Servidor rodando")
+    console.log("Servidor rodando http://localhost:4000")
 })
