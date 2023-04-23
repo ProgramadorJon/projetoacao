@@ -8,12 +8,13 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
+app.get('/importar', Acao.importar)
 app.get('/acao', Acao.listar)
 app.get('/acao/:simbolo', Acao.selecionar)
 
 
-//app.get('/cotacao', Cotacao.listar)
-app.get('/cotacao', Cotacao.importar)
+app.get('/cotacao', Cotacao.listar)
+app.get('/cotacaoatz', Cotacao.atualiza)
 
 
 banco.authenticate()

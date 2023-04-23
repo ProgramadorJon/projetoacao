@@ -17,41 +17,21 @@ async function selecionar(req, res) {
 }
 
 async function importar(req, res) {
+
+    const t = await banco.transaction()
+
+    let simbolos = []
+    let short = []
+
     try {
         const resposta = await axios.get('https://brapi.dev/api/available')
-        console.log(resposta.data.stocks)
-    
-        let acoesCriadas = []
-        await resposta.data.stocks.map(async (simbolo) => {
-          const acao = await Acao.create({
-            simbolo,
-          });
-          acoesCriadas.push(acao);
-        })
-    
-        res.json(acoesCriadas);
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Erro ao importar ações' });
-      }
-    }
 
-  
-    async function importars(req, res){
-      const acaoTicker = await axios.get('http://localhost:4000/acao')
-      const t = await banco.transaction()
-  
-      let tickers = []
-      let short = []
-  
-      for (const i in acaoTicker.data){
-          if ('simbolo' in acaoTicker.data[i]) {
-              tickers.push(acaoTicker.data[i].simbolo)
-          }
-      }
-  
-      for (const j in tickers){
-          const tick = tickers[j]
+        for( const i in resposta.data.stocks){
+          simbolos.push(resposta.data.stocks[i])
+        }
+
+        for (const j in simbolos){
+          const tick = simbolos[j]
           const nome = await axios.get('https://brapi.dev/api/quote/'+ tick)
           const acao = nome.data.results
   
@@ -60,37 +40,31 @@ async function importar(req, res) {
               short.push(shortName)    
           }
   
-      if (j === tickers.length) {
-          break;
-          }
-  
-      }
-  
-      try {
-          
-          
-          for (let i = 0; i < tickers.length; i++) {
-              const ticker = tickers[i];
-              const name = short[i]; // obtendo o nome curto correspondente para o ticker atual
-              await Acao.update(
-                { nome: name }, // atualizando a propriedade "nome" com o valor do nome curto correspondente
-                { where: { simbolo: ticker } } // filtrando as ações com base no símbolo em "ticker"
-              ),
-              {
-                  transaction: t
+          if (j === simbolos.length) {
+              break;
               }
-            }
-          await t.commit()
-          res.json({"mensagem": "Base atualizada/criada com sucesso!"})
-  
-  
-  
-  
+       }
+    
+      
+       for (let i = 0; i < simbolos.length; i++){
+          const tickers = simbolos[i]
+          const name = short[i]
+          await Acao.create(
+            { nome: name , 
+            simbolo: tickers } 
+          ),
+          {
+            transaction: t
+        }
+       }
+        await t.commit()
+        res.json({"mensagem": "Base atualizada/criada com sucesso!"})
       } catch (error) {
-          await t.rollback()
-          res.status(400).json(error)
+        await t.rollback()
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao importar ações' });
       }
-  }
+}
   
 
 export default { listar, importar, selecionar }
