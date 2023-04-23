@@ -1,3 +1,4 @@
+import banco from "../banco.js"
 import Acao from "../models/acaoModel.js"
 import axios from "axios"
 
@@ -34,5 +35,34 @@ async function importar(req, res) {
         res.status(500).json({ error: 'Erro ao importar ações' });
       }
     }
+
+  
+async function teste(req, res) {
+
+  const resposta = await axios.get('https://brapi.dev/api/available')
+  const t = await banco.transaction()
+  const ticker = await axios.get('https://brapi.dev/api/quote/')
+
+
+  await resposta.data.stocks.map(async (simbolo) => {
+    const acao = await Acao.create({
+      simbolo},
+      {
+        transaction: t
+      })
+  })
+
+
+  try {
+
+      
+
+
+
+
+  } catch (error) {
+    
+  }
+}
 
 export default { listar, importar, selecionar }
