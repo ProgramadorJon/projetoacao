@@ -7,6 +7,19 @@ async function listar(req, res){
     res.json(await Cotacao.findAll())
 }
 
+Acao.hasMany(Cotacao)
+Cotacao.belongsTo(Acao)
+
+async function selecionar(req, res) {
+    await Acao.findByPk(req.params.idacao,
+      {
+        include: Acao
+    })
+    .then(result => res.json(result))
+    .catch(err => res.status(400).json(err))
+  }
+  
+
 async function inserir(req, res){
     const acaoTicker = await axios.get('http://localhost:4000/acao')
     const t = await banco.transaction()
