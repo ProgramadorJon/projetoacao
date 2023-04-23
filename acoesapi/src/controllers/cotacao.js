@@ -7,11 +7,12 @@ async function listar(req, res){
     res.json(await Cotacao.findAll())
 }
 
-async function atualiza(req, res){
+async function inserir(req, res){
     const acaoTicker = await axios.get('http://localhost:4000/acao')
-   // const t = await banco.transaction()
+    const t = await banco.transaction()
 
     let tickers = []
+    let idacao = []
     let shortName = []
     let cotacao = []
     let valorMercado = []
@@ -23,6 +24,7 @@ async function atualiza(req, res){
 
     for (const i in acaoTicker.data){
         if ('simbolo' in acaoTicker.data[i]) {
+            idacao.push(acaoTicker.data[i].idacao)
             tickers.push(acaoTicker.data[i].simbolo)
         }
     }
@@ -46,34 +48,42 @@ async function atualiza(req, res){
         }
 
     }
-    console.log(cotacao)
 
-    // try {
+     try {
         
         
-    //     for (let i = 0; i < tickers.length; i++) {
-    //         const ticker = tickers[i];
-    //         const name = short[i]; // obtendo o nome curto correspondente para o ticker atual
-    //         await Acao.update(
-    //           { nome: name }, // atualizando a propriedade "nome" com o valor do nome curto correspondente
-    //           { where: { simbolo: ticker } } // filtrando as ações com base no símbolo em "ticker"
-    //         ),
-    //         {
-    //             transaction: t
-    //         }
-    //       }
-    //     await t.commit()
-    //     res.json({"mensagem": "Base atualizada/criada com sucesso!"})
+        for (let i = 0; i < idacao.length; i++) {
+            const id = idacao[i]
+            const cot = cotacao[i]
+            const valor = valorMercado[i]
+            const volume = volumeTransacooes[i]
+            const m = moeda[i]
+            const dat = data[i]
+
+            await Cotacao.create(
+              { idacao:  id, 
+                cotacao: cot,
+                valormercado: valor, 
+                volumetransacoes: volume,
+                moeda: m,
+                data: dat,
+              }),
+            {
+                transaction: t
+            }
+          }
+        await t.commit()
+        res.json({"mensagem": "Base atualizada/criada com sucesso!"})
 
 
 
 
-    // } catch (error) {
-    //     await t.rollback()
-    //     res.status(400).json(error)
-    // }
+    } catch (error) {
+        await t.rollback()
+        res.status(400).json(error)
+    }
 }
 
 
 
-export default { listar, atualiza }
+export default { listar, inserir }

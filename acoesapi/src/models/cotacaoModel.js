@@ -11,7 +11,7 @@ export default banco.define("cotacao", {
 
     idacao: {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        allowNull: false,
         references: {
             model: 'acao',
             key: 'idacao'
@@ -23,18 +23,23 @@ export default banco.define("cotacao", {
         allowNull: true
     },
 
-    valorMercado: {
+    valormercado: {
         type: Sequelize.FLOAT,
         allowNull: true
     },
 
-    valorTransacoes: {
+    volumetransacoes: {
         type: Sequelize.FLOAT,
         allowNull: true
     },
 
     moeda: {
         type: Sequelize.TEXT,
+        allowNull: true
+    },
+
+    data: {
+        type: Sequelize.DATE,
         allowNull: true
     }
 })
