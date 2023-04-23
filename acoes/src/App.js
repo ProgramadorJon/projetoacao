@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import './App.css';
 import { FaSearch } from 'react-icons/fa'
@@ -17,7 +18,8 @@ function App() {
 
     try {
 
-
+      const resposta = await axios.get('http://localhost:4000/acao/' + input)
+      console.log(resposta)
 
     } catch (error) {
       alert('Ops erro ao buscar ticker')
