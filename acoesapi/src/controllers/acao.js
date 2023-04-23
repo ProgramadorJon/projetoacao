@@ -1,10 +1,11 @@
 import banco from "../banco.js"
 import Acao from "../models/acaoModel.js"
 import axios from "axios"
+import { Sequelize } from "sequelize"
 
 
 async function listar(req, res) {
-    res.json(await Acao.findAll())
+  res.json(await Acao.findAll())
 }
 
 async function selecionar(req, res) {

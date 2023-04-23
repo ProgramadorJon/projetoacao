@@ -1,32 +1,49 @@
-//import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './App.css';
-import Informacoes from './componentes/Informacoes';
-import Menu from './componentes/Menu';
-//import axios from "axios"
+import { FaSearch } from 'react-icons/fa'
+import axios from "axios"
 
 
 function App() { 
 
-  // const [simbolo, setUsers] = useState([])
+  const [input, setInput] = useState('')
 
-  // async function getSimbolo () {
-  //   try {
-  //     const res = await axios.get("http://localhost:4000/acao")
-  //     setUsers(res.data.sort((a,b) => (a.simbolo > b.simbolo ? 1 : -1)))
-  //   } catch (error) {
-  //     return error
-  //   }
-  // }
 
-  // useEffect(() => {
-  //   getSimbolo()
-  // }, [setUsers])
+  async function pesquisar(){
+    
+    if(input === ''){
+      alert('Campo de pesquisa vazio')
+    }
+
+    try {
+
+
+
+    } catch (error) {
+      alert('Ops erro ao buscar ticker')
+      setInput('')
+    }
+
+
+  }
 
   return (
-    <div className="App">
+    <div className="container">
 
-      <Menu />
-      {/*<Informacoes  ticker={input}/> */}
+      <h1 className='title'>Vamos Começar</h1>
+
+      <div className='containerInput'>
+        <input
+        type='text'
+        placeholder='Digite um Ticker...'
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        />
+
+        <button className='botaoPesquisar' onClick={pesquisar}>
+        <FaSearch size={25} color='#FFF' />
+        </button>
+      </div>
 
     </div>
   );
