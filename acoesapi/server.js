@@ -15,6 +15,7 @@ app.get('/acao/:simbolo', Acao.selecionar)
 
 app.get('/cotacao', Cotacao.listar)
 app.get('/inserircotacao', Cotacao.inserir)
+app.get('/selecionarcotacao/:idacao', Cotacao.selecionar)
 
 
 banco.authenticate()

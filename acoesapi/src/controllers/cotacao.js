@@ -1,20 +1,18 @@
 import banco from "../banco.js"
 import Cotacao from "../models/cotacaoModel.js"
 import axios from "axios"
-import Acao from "../models/acaoModel.js"
+
 
 async function listar(req, res){
     res.json(await Cotacao.findAll())
 }
 
-Acao.hasMany(Cotacao)
-Cotacao.belongsTo(Acao)
-
 async function selecionar(req, res) {
-    await Acao.findByPk(req.params.idacao,
-      {
-        include: Acao
-    })
+    await Cotacao.findAll(
+        {
+            where: { idacao: req.params.idacao }
+        }
+    )
     .then(result => res.json(result))
     .catch(err => res.status(400).json(err))
   }
@@ -99,4 +97,4 @@ async function inserir(req, res){
 
 
 
-export default { listar, inserir }
+export default { listar, inserir, selecionar }

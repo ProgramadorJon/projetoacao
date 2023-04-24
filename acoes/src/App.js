@@ -11,6 +11,8 @@ function App() {
 
 
   async function pesquisar(){
+
+    
     
     if(input === ''){
       alert('Campo de pesquisa vazio')
@@ -18,8 +20,32 @@ function App() {
 
     try {
 
-      const resposta = await axios.get('http://localhost:4000/acao/' + input)
-      console.log(resposta)
+      const consultaacao = await axios.get('http://localhost:4000/acao/' +input)
+      const id = consultaacao.data.idacao
+      const simbolo = consultaacao.data.simbolo
+      const nome = consultaacao.data.nome
+
+
+      const consultacotacao = await axios.get('http://localhost:4000/selecionarcotacao/' +id)
+
+      let cotacao = []
+      let valormercado = []
+      let volumetransacooes = []
+      let moeda = []
+      let data = []
+
+      for (const i in consultacotacao.data){
+        if ('cotacao' in consultacotacao.data[i]) {
+            cotacao.push(consultacotacao.data[i].cotacao)
+            valormercado.push(consultacotacao.data[i].valormercado)
+            volumetransacooes.push(consultacotacao.data[i].volumetransacooes)
+            moeda.push(consultacotacao.data[i].moeda)
+            data.push(consultacotacao.data[i].data)
+        }
+      }
+
+      console.log(cotacao[0],valormercado,volumetransacooes,moeda,data)
+
 
     } catch (error) {
       alert('Ops erro ao buscar ticker')
